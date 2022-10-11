@@ -1,10 +1,10 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+let projectData = {};
 // Require Express to run server and routes
-const express = require("express");
-const bodyParser = require("body-parser");
-const Cors = require("Cors");
-const port = 8080;
+const express = require('express');
+const cors = require('cors');
+/* Dependencies */
+const bodyParser = require('body-parser');
 // Start up an instance of app
 const app = express();
 /* Middleware*/
@@ -12,20 +12,22 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // Cors for cross origin allowance
-app.use(Cors());
+app.use(cors());
 // Initialize the main project folder
 app.use(express.static('website'));
-//Return Endpoint Data GET Route I: Server Side
-app.get("/getData" , (req ,res) =>{
-    res.send(projectData);
-})
-//POST Route
-app.post("/postData" , (req , res) =>{
-  projectData['temp' , "date" , "content"] =   req.body.temp, req.body.date, req.body.content;
-  console.log(projectData)
+// GET route
+app.get('/showData', (req, res) =>{
   res.send(projectData);
-})
-// Setup Server
-app.listen(port , run = () =>{
-    console.log(`running at ${port}`)
-})
+});
+// POST route
+app.post('/saveData', (req, res) => {
+  projectData['temp'] = req.body.temp;
+  projectData['date'] = req.body.date;
+  projectData['content'] = req.body.content;
+  res.send(projectData);
+});
+// Set up and Spin up the server
+const port = 8080;
+const localhost = app.listen(port, () => {
+    console.log(`server is listening on port: ${port}`); // Callback to debug
+});

@@ -1,41 +1,25 @@
 /* Global Variables */
-const baseURL = "https://api.openweathermap.org/data/2.5/weather"
-const AKey = "b055ae46ba07e34420249eab66da4ed5"
-const btn = document.getElementById('generate');
-const zip = document.getElementById('zip').value;
-const content = document.getElementById('feelings').value;
+const url = "https://api.openweathermap.org/data/2.5/weather?q="
+const apiKey = "&appid=d66de177651c594dc10ea6258176c6a6";
+const generateBtn = document.getElementById('generate');
 // Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
-//addEventListener
-btn.addEventListener("click", ev = () => {
-    // call the function 
-    getWeatherData(baseURL, zip, AKey)
-        .then(fetchData =  (data) => {
-            // add data to POST request
-            postData('/postData', { temp: data.main.temp, date: newDate, content: content });
-        }).then(update =  () => {
-            // call updateUI to update browser content
-            updateUI()
-        }).catch(erorr = (error)=> {
-            console.log("error");
-        });
- })
- /* Function to GET Web API Data*/
- const getWeatherData = async(baseURL, zip, AKey) => {
+let today = new Date();
+let tDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+/* GET Web API Data*/
+const weatherData = async (url, zip, apiKey) => {
     // res equals to the result of fetch function
-    const res = await fetch(`${baseURL}?q=${zip}&appid=${AKey}`);
+    const res = await fetch(`${url}${zip}${apiKey}`);
     try {
         // data equals to the result of fetch function
         const data = await res.json();
         return data;
-    } catch (error) {
-        console.log('error');
+    } catch (err) {
+        console.log('error', err);
     }
 };
-/* Function to POST data */
-const postData = async(url = '', data = {}) => {
-    const response = await fetch(url, {
+/*POST data */
+const sendData = async (url = '', data = {}) => {
+    const res = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
@@ -49,25 +33,41 @@ const postData = async(url = '', data = {}) => {
     });
 
     try {
-        const newData = await response.json();
-        return newData;
+        const nData = await res.json();
+        return nData;
     } catch (error) {
-        console.log("error");
+        console.log(error);
     }
 };
-
-const updateUI = async() => {
-    const request = await fetch('/getData');
+//get data and send it to server to handle it
+generateBtn.addEventListener('click', function () {
+    //get user input
+    const zip = document.getElementById('zip').value;
+    const content = document.getElementById('feelings').value;
+    weatherData(url, zip, apiKey)
+        .then(function (data) {
+            // add data to POST request
+            sendData('/saveData', { temp: data.main.temp, date: tDate, content: content });
+        }).then(function () {
+            // call update() to update browser content
+            update()
+        }).catch(function (err) {
+            console.log(err);
+        });
+});
+// updating the ui with the data saved in server
+const update = async () => {
+    const req = await fetch('/showData');
     try {
-        const data = await request.json();
-        console.log(data);
+        const getData = await req.json();
+        console.log(getData);
         // update new entry values
-        if (data.date !== undefined && data.temp !== undefined && data.content !== undefined) {
-            document.getElementById('date').innerHTML = data.date;
-            document.getElementById('temp').innerHTML = data.temp;
-            document.getElementById('content').innerHTML = data.content;
+        if (getData.date !== undefined && getData.temp !== undefined && getData.content !== undefined) {
+            document.getElementById('date').innerHTML = getData.date;
+            document.getElementById('temp').innerHTML = getData.temp + 'F';
+            document.getElementById('content').innerHTML = getData.content;
         }
-    } catch (error) {
-        console.log('error', error);
+    } catch (err) {
+        console.log('error', err);
     }
 };
