@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 app.use(Cors());
 // Initialize the main project folder
 app.use(express.static('website'));
-
 //Return Endpoint Data GET Route I: Server Side
 app.get("/getData" , (req ,res) =>{
     res.send(projectData);

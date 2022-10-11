@@ -11,15 +11,14 @@ let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
 btn.addEventListener("click", ev = () => {
     // call the function 
     getWeatherData(baseURL, zip, AKey)
-        .then(function (data) {
+        .then(fetchData =  (data) => {
             // add data to POST request
             postData('/postData', { temp: data.main.temp, date: newDate, content: content });
-        }).then(function () {
+        }).then(update =  () => {
             // call updateUI to update browser content
             updateUI()
-        }).catch(function (error) {
-            console.log(error);
-            console.log("erorr")
+        }).catch(erorr = (error)=> {
+            console.log("error");
         });
  })
  /* Function to GET Web API Data*/
