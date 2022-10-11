@@ -1,6 +1,6 @@
 /* Global Variables */
 const url = "https://api.openweathermap.org/data/2.5/weather?q="
-const apiKey = "&appid=d66de177651c594dc10ea6258176c6a6";
+const apiKey = "&appid=d66de177651c594dc10ea6258176c6a6&units=imperial";
 const generateBtn = document.getElementById('generate');
 // Create a new date instance dynamically with JS
 let today = new Date();
