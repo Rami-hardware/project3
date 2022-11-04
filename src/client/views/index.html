@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Test</title>
+</head>
+
+<body>
+    <div class="container">
+        <!--nav-->
+        <nav class="nav">
+            <h1 class="navH1"><span>t</span>ravel <span>p</span>lanner</h1>
+        </nav>
+        <!--nav-->
+        <!--add section-->
+        <div class="add">
+                <p>
+                    <span>p</span>lan <span>m</span>y <span>t</span>rip
+                    <button id="btn" onclick="Client.getCountyName(),Client.getWeather(),Client.getImg(), Client.Cal()">add trip</button>
+                </p>
+                <div id="hid">
+                    <h1 class="myTrip">
+                        <span>m</span>y trip to
+                        <input type="text" placeholder="enter the counrty" class="trip" id="county" name="name">
+                    </h1 >
+                        <h1 class="depart">
+                            <span>d</span>parting
+                            <input type="date" placeholder="date" class="date" id="date">
+                        </h1>
+                </div>
+        </div>
+        <!--add section-->
+        <!--Image section-->
+        <div class="img">
+            <img src="../media/marbella.png" alt="img" id="img" name="img"/>
+            <button class="lodging">add lodging</button>
+            
+            <button class="packing">add packing list</button>
+            
+            <button class="notes">add notes</button>
+        </div>
+        <!--Image section-->
+        <!--info section-->
+        <div class="info">
+            <h1>
+                <span>m</span>y trip to: <h2 id="name"><h2 id="Cname" name="Cname"></h2> </h2>
+
+            </h1>
+            <h1>
+                <span>d</span>parting: <h2 id="showDate"></h2>
+            </h1>
+            <h2>fight info</h2>
+            <p>
+                <span>ord</span> 3:00PM
+                <br />
+                <span>f</span>ight 22 udcity <span>air</span>
+                <br />
+                <span>ord</span> 3:00PM
+                <br />
+                <span>f</span>ight 44 udcity <span>air</span>
+            </p>
+            <p>
+            <p>counrty <p id="counter">counter</p> days away</p>
+            <h3>typcial weather for then</h3>
+            <p>the temp is <p name="temp" id="temp"></p></p>
+            <p>the feeling temp <p name="feelTemp" id="feelTemp"></p></p>
+            <p>description: <p name="description" id="description">.</p></p>
+            </p>
+        </div>
+        <!--info section-->
+    </div>
+    <script>
+        // Check that service workers are supported
+        if ('serviceWorker' in navigator) {
+            // Use the window load event to keep the page load performant
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js');
+            });
+        }
+    </script>
+</body>
+
+</html>
